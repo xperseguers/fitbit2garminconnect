@@ -72,8 +72,6 @@ class FitbitClient extends AbstractClient
         $url = (empty($baseUrl) ? 'https://web-api.fitbit.com' : $baseUrl) . $relativeUrl;
         $cookieFileName = $this->getCookieFileName();
 
-        $dataQuery = '';
-
         $dataQuery = http_build_query($data);
 
         $ch = curl_init();
