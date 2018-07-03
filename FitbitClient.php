@@ -108,10 +108,10 @@ class FitbitClient extends AbstractClient
         $info = curl_getinfo($ch);
         if ($result === FALSE) {
             printf("cUrl error (#%d): %s\n", curl_errno($ch), curl_error($ch));
+            //rewind($verbose);
             //$verboseLog = stream_get_contents($verbose);
             //echo "Verbose information:\n", $verboseLog, "\n";
         }
-        //rewind($verbose);
         curl_close($ch);
 
         if (empty($baseUrl)) {

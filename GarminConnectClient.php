@@ -105,11 +105,6 @@ class GarminConnectClient extends AbstractClient
                 if (!empty($dataQuery)) {
                     $url .= '?' . $dataQuery;
                 }
-                //if (empty($baseUrl)) {
-                //    curl_setopt($ch, CURLOPT_HTTPHEADER, [
-                //        'authorization: Bearer ' . $this->token
-                //    ]);
-                //}
                 break;
 
             case 'POST':
@@ -145,24 +140,21 @@ class GarminConnectClient extends AbstractClient
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
         curl_setopt($ch, CURLOPT_COOKIEFILE, $cookieFileName);
         curl_setopt($ch, CURLOPT_COOKIEJAR, $cookieFileName);
-        curl_setopt($ch, CURLOPT_VERBOSE, true);
-        $verbose = fopen('php://temp', 'w+');
-        curl_setopt($ch, CURLOPT_STDERR, $verbose);
+        //curl_setopt($ch, CURLOPT_VERBOSE, true);
+        //$verbose = fopen('php://temp', 'w+');
+        //curl_setopt($ch, CURLOPT_STDERR, $verbose);
         curl_setopt($ch, CURLINFO_HEADER_OUT, true);
         $result = curl_exec($ch);
         $info = curl_getinfo($ch);
         if ($result === FALSE) {
             printf("cUrl error (#%d): %s\n", curl_errno($ch), curl_error($ch));
+            //rewind($verbose);
             //$verboseLog = stream_get_contents($verbose);
             //echo "Verbose information:\n", $verboseLog, "\n";
         }
-        rewind($verbose);
-        $verboseLog = stream_get_contents($verbose);
-        echo "Verbose information:\n", $verboseLog, "\n";
-
         curl_close($ch);
 
-        if (empty($baseUrl)) {
+        if (strpos($relativeUrl, '/modern/') !== false) {
             if ($info['http_code'] === 200) {
                 //return json_decode($result, true);
             }
