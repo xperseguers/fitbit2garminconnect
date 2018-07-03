@@ -60,12 +60,24 @@ class GarminConnectClient extends AbstractClient
         return false;
     }
 
-    public function addWeight()
+    public function getWeightValues() : array
+    {
+        $oneYearAgo = strtotime('-1 year') * 1000;  // 1000 because the Garmin Connect API is Java-based
+        $now = time() * 1000;
+
+        $weigthValues = $this->doGet('/modern/proxy/userprofile-service/userprofile/personal-information/weightWithOutbound/filterByDay', [
+            'from' => $oneYearAgo,
+            'until' => $now,
+        ]);
+        return $weigthValues;
+    }
+
+    public function addWeight(string $date, float $weight)
     {
         $this->doPost('/modern/proxy/weight-service/user-weight', [
-            'value' => 71.5,
+            'value' => $weight,
             'unitKey' => 'kg',
-            'date' => '2018-07-01',
+            'date' => $date,
         ]);
     }
 
@@ -154,9 +166,10 @@ class GarminConnectClient extends AbstractClient
         }
         curl_close($ch);
 
-        if (strpos($relativeUrl, '/modern/') !== false) {
+
+        if (strpos($relativeUrl, '/modern/') !== false && substr($result, 0, 15) !== '<!DOCTYPE html>') {
             if ($info['http_code'] === 200) {
-                //return json_decode($result, true);
+                return json_decode($result, true);
             }
         }
 
