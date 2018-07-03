@@ -10,7 +10,7 @@ class GarminConnectClient extends AbstractClient
     public function connect(bool $force = false): bool
     {
         if ($this->token !== null && !$force) {
-            //return true;
+            return true;
         }
 
         $parameters = [

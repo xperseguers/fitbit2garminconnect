@@ -20,7 +20,9 @@ manually enter your weight.
 
 Easy! Straightforward!
 
-Hope you'll enjoy this project!
+Hope you'll enjoy this project, after all this was all about reverse-engineering the web UI of
+Fitbit and Garmin Connect :)
 
 Cheers
+
 Xavier
