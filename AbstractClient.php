@@ -70,12 +70,12 @@ abstract class AbstractClient
             return $cookies;
         }
         $contents = file_get_contents($cookieFileName);
-        $lines = explode(LF, $contents);
+        $lines = explode("\n", $contents);
         foreach ($lines as $line) {
             if (empty($line) || $line{0} === '#') {
                 continue;
             }
-            $data = explode(TAB, $line);
+            $data = explode("\t", $line);
             $cookie = array_combine(
             /** @see http://www.cookiecentral.com/faq/#3.5 */
                 ['domain', 'flag', 'path', 'secure', 'expiration', 'name', 'value'],
