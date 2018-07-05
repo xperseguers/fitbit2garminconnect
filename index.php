@@ -6,9 +6,18 @@ require_once('AbstractClient.php');
 require_once('FitbitClient.php');
 require_once('GarminConnectClient.php');
 
+echo "Initializing connection to Fitbit         ... ";
 $fitbitClient = new FitbitClient(FITBIT_USERNAME, FITBIT_PASSWORD);
-$fitbitClient->connect();
+if ($fitbitClient->connect()) {
+    echo "success\n";
+} else {
+    echo "fail\n";
+    exit(1);
+}
+
+echo "Fetching weight data points               ... ";
 $values = $fitbitClient->getWeightValues();
+echo count($values) . " data points\n";
 
 // Remark: you may remove this minimum date and the corresponding "continue"
 //         in loop below when importing for the very first time
@@ -23,9 +32,18 @@ foreach ($values as $data) {
     }
 }
 
+echo "Initializing connection to Garmin Connect ... ";
 $gcClient = new GarminConnectClient(GARMIN_CONNECT_USERNAME, GARMIN_CONNECT_PASSWORD);
-$gcClient->connect();
+if ($gcClient->connect()) {
+    echo "success\n";
+} else {
+    echo "fail\n";
+    exit(2);
+}
+
+echo "Fetching weight data points               ... ";
 $values = $gcClient->getWeightValues();
+echo count($values) . " data points\n";
 
 $weightTarget = [];
 foreach ($values as $data) {
@@ -36,13 +54,19 @@ foreach ($values as $data) {
     }
 }
 
+echo "Looking for new weight data points        ... ";
 $newDates = array_diff_key($weightSource, $weightTarget);
+echo count($newDates) . " new data points\n";
+
 foreach ($newDates as $date => $weight) {
     $gcClient->addWeight($date, $weight);
 }
 
-echo count($newDates) . ' weight data points added.';
-
 // Remove local cookies
+echo "Disconnecting from Fitbit                 ... ";
 $fitbitClient->disconnect();
+echo "success\n";
+
+echo "Disconnecting from Garmin Connect         ... ";
 $gcClient->disconnect();
+echo "success\n";
