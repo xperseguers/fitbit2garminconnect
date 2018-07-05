@@ -15,7 +15,7 @@ manually enter your weight.
 **Usage**
 
 1. Clone this repository
-2. Copy `config.php.sample` as `config.php`, then adapt credentials
+2. Copy `config.sample.php` as `config.php`, then adapt credentials
 3. Execute `index.php`
 
 Easy! Straightforward!
