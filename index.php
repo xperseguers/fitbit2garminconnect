@@ -6,6 +6,14 @@ require_once('AbstractClient.php');
 require_once('GarminConnectClient.php');
 require_once('FitbitClient.php');
 
+echo <<<EOT
+----------------------------------------------------------------
+            Fitbit to Garmin Connect Synchronization
+----------------------------------------------------------------
+
+
+EOT;
+
 echo "Initializing connection to Garmin Connect ... ";
 $gcClient = new GarminConnectClient(GARMIN_CONNECT_USERNAME, GARMIN_CONNECT_PASSWORD);
 if ($gcClient->connect()) {
@@ -70,4 +78,4 @@ echo "success\n";
 
 echo "Disconnecting from Garmin Connect         ... ";
 $gcClient->disconnect();
-echo "success\n";
+echo "success\n\n";
