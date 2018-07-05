@@ -51,10 +51,15 @@ class FitbitClient extends AbstractClient
         return null;
     }
 
+    /**
+     * Returns the weight data points.
+     *
+     * @return array
+     */
     public function getWeightValues() : array
     {
-        $weigthValues = $this->doGet('/1.1/user/-/body/log/weight/graph/weighttrend/all.json?durationType=all');
-        return $weigthValues['graphValues'];
+        $weightValues = $this->doGet('/1.1/user/-/body/log/weight/graph/weighttrend/all.json?durationType=all');
+        return $weightValues['graphValues'];
     }
 
     protected function doGet(string $relativeUrl, array $data = [])

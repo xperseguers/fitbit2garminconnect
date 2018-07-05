@@ -60,18 +60,29 @@ class GarminConnectClient extends AbstractClient
         return false;
     }
 
+    /**
+     * Returns the weight data points.
+     *
+     * @return array
+     */
     public function getWeightValues() : array
     {
         $oneYearAgo = strtotime('-1 year') * 1000;  // 1000 because the Garmin Connect API is Java-based
         $now = time() * 1000;
 
-        $weigthValues = $this->doGet('/modern/proxy/userprofile-service/userprofile/personal-information/weightWithOutbound/filterByDay', [
+        $weightValues = $this->doGet('/modern/proxy/userprofile-service/userprofile/personal-information/weightWithOutbound/filterByDay', [
             'from' => $oneYearAgo,
             'until' => $now,
         ]);
-        return $weigthValues;
+        return $weightValues;
     }
 
+    /**
+     * Adds a weight data point.
+     *
+     * @param string $date Format YYYY-MM-DD
+     * @param float $weight Weight in kg
+     */
     public function addWeight(string $date, float $weight)
     {
         $this->doPost('/modern/proxy/weight-service/user-weight', [
