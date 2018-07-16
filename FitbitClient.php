@@ -58,7 +58,7 @@ class FitbitClient extends AbstractClient
      */
     public function getWeightValues() : array
     {
-        $weightValues = $this->doGet('/1.1/user/-/body/log/weight/graph/weighttrend/all.json?durationType=all');
+        $weightValues = $this->doGet('/1.1/user/-/body/log/weight/graph/all.json?durationType=all');
         return $weightValues['graphValues'];
     }
 
